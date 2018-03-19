@@ -6,6 +6,7 @@ import os
 import os.path
 
 CONVERTER = "/opt/schrodinger/utilities/structconvert"
+STMAP = "/opt/schrodinger/sitemap"
 
 ###############################################################################
 
@@ -41,4 +42,10 @@ for mol in readlist:
     mol.write("pdb", ifname)
     os.system (cmd)
 
+    cmd = STMAP + " -j " + basename + ".jrun -prot " + ofname
+
+    os.system (cmd)
+
     idx = idx + 1
+ 
+    exit()
