@@ -54,13 +54,13 @@ for mol in readlist:
     util.if_exist_rm (ifname)
     util.if_exist_rm (ofname)
 
-    cmd = CONVERTER + "-sitebox 6 -reportsize 10 -resolution fine -ipdb " \
-            + ifname + " -omae " + ofname 
+    cmd = CONVERTER + " -ipdb " + ifname + " -omae " + ofname 
     mol.write("pdb", ifname)
     os.system (cmd)
 
     
-    cmd = STMAP + " -j " + noewbasename + ".jrun -prot " + ofname
+    cmd = STMAP + " -sitebox 6 -reportsize 10 -resolution fine -j " \
+        + noewbasename + ".jrun -prot " + ofname
 
     os.system (cmd)
 
