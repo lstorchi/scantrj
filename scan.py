@@ -51,7 +51,7 @@ for mol in readlist:
     ifname = noewbasename + ".pdb" 
     ofname = noewbasename + ".mae"
 
-    util.f_exist_rm (ifname)
+    util.if_exist_rm (ifname)
     util.if_exist_rm (ofname)
 
     cmd = CONVERTER + "-sitebox 6 -reportsize 10 -resolution fine -ipdb " \
