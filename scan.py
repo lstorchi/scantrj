@@ -47,8 +47,9 @@ idx = 1
 localidx = 1
 files_to_wait_for = []
 for mol in readlist:
-    ifname = basename + "_" + str(idx) + ".pdb" 
-    ofname = basename + "_" + str(idx) + ".mae"
+    noewbasename = basename + "_" + str(idx)
+    ifname = noewbasename + ".pdb" 
+    ofname = noewbasename + ".mae"
 
     util.f_exist_rm (ifname)
     util.if_exist_rm (ofname)
@@ -58,11 +59,12 @@ for mol in readlist:
     mol.write("pdb", ifname)
     os.system (cmd)
 
-    cmd = STMAP + " -j " + basename + ".jrun -prot " + ofname
+    
+    cmd = STMAP + " -j " + noewbasename + ".jrun -prot " + ofname
 
     os.system (cmd)
 
-    files_to_wait_for.append(basename+".jrun_out.maegz")
+    files_to_wait_for.append(noewbasename + ".jrun_out.maegz")
     
     idx = idx + 1
 
