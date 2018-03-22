@@ -64,7 +64,10 @@ for mol in readlist:
 
     os.system (cmd)
 
-    files_to_wait_for.append(noewbasename + ".jrun_out.maegz")
+    if os.system(cmd):
+        print cmd , " failed! "
+    else:
+        files_to_wait_for.append(noewbasename + ".jrun_out.maegz")
     
     idx = idx + 1
 
