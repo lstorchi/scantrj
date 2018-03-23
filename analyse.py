@@ -2,6 +2,7 @@ import glob
 import gzip
 import sys
 import os
+import re
 
 sys.path.append("./common")
 import maesfsm
@@ -13,6 +14,7 @@ fullsetofsites = []
 for file in glob.glob("*.maegz"):
     print(file)
     basename = file[:-6]
+
     newfile = basename + ".mae.gz"
     os.rename(file, newfile)
     cmd = "gunzip " + newfile
@@ -31,7 +33,6 @@ for file in glob.glob("*.maegz"):
         for idx in range(0,len(sitedata)):
             if (sitedata[idx][0].find("_site_") > 0):
                 if (len(sitedata[idx]) == 14):
-                    print len(atomdata[idx])
                     site = maesfsm.site_data()
 
                     site.s_m_title = sitedata[idx][0]
@@ -49,6 +50,13 @@ for file in glob.glob("*.maegz"):
                     site.r_sitemap_don_d_acc = float(sitedata[idx][12])
                     site.i_m_ct_format= float(sitedata[idx][13])
 
+                    for spoint in atomdata[idx]:
+                        spoint = spoint.strip()
+                        spoint = re.sub(' +',' ', spoint)
+                        s_spoint = spoint.split()
+                        site.points.append((float(s_spoint[0]), float(s_spoint[1]), \
+                                float(s_spoint[2])))
+
                     sitespermol.append(site)
                 else:
                     print "Error in file header "
@@ -60,5 +68,12 @@ for file in glob.glob("*.maegz"):
 
     fp.close()
 
-    exit()
+    cmd = "gzip -c -9 " + basename + ".mae > " + \
+            basename + ".maegz"
+    os.system (cmd)
+    os.remove(basename + ".mae")
 
+for sites in fullsetofsites:
+    print len(sites)
+    for site in sites:
+        print "  ", site.s_m_title
