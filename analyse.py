@@ -6,10 +6,13 @@ import re
 
 sys.path.append("./common")
 import maesfsm
+import util
 
 os.chdir("./")
 
 fullsetofsites = []
+
+total_num_of_centroid = 0
 
 for file in glob.glob("*.maegz"):
     print(file)
@@ -50,12 +53,14 @@ for file in glob.glob("*.maegz"):
                     site.r_sitemap_don_d_acc = float(sitedata[idx][12])
                     site.i_m_ct_format= float(sitedata[idx][13])
 
+                    total_num_of_centroid = total_num_of_centroid + 1
+
                     for spoint in atomdata[idx]:
                         spoint = spoint.strip()
                         spoint = re.sub(' +',' ', spoint)
                         s_spoint = spoint.split()
-                        site.points.append((float(s_spoint[0]), float(s_spoint[1]), \
-                                float(s_spoint[2])))
+                        site.points.append((float(s_spoint[2]), float(s_spoint[3]), \
+                                float(s_spoint[4])))
 
                     sitespermol.append(site)
                 else:
@@ -73,7 +78,18 @@ for file in glob.glob("*.maegz"):
     os.system (cmd)
     os.remove(basename + ".mae")
 
+util.if_exist_rm("centroid.xyz")
+fp = open("centroid.xyz", "w")
+
+fp.write(str(total_num_of_centroid) + "\n")
+fp.write("centroids\n")
+
 for sites in fullsetofsites:
     print len(sites)
     for site in sites:
         print "  ", site.s_m_title
+        c = util.centroid(site.points)
+        if c != None:
+            fp.write("H %12.6f %12.6f %12.6f\n"%(c[0], c[1], c[2]))
+
+fp.close()
