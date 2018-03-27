@@ -70,6 +70,8 @@ for mol in readlist:
         files_to_wait_for.append(noewbasename + ".jrun_out.maegz")
     
     idx = idx + 1
+    localidx = localidx + 1
+    print "Doing ", idx , " of ", len(readlist)
 
     if (localidx > numofrun):
         print "Waiting for " , numofrun , " jobs ... "
