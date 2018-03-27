@@ -76,7 +76,7 @@ for mol in readlist:
         wait_for_list_of_files (files_to_wait_for)
         localidx = 0
         files_to_wait_for.clear()
-        print "Done. ""
+        print "Done. "
 
 wait_for_list_of_files (files_to_wait_for)
 
