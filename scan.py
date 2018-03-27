@@ -76,7 +76,7 @@ for mol in readlist:
         print "Waiting for " , numofrun , " jobs ... "
         wait_for_list_of_files (files_to_wait_for)
         localidx = 0
-        files_to_wait_for.clear()
+        files_to_wait_for = []
         print "Done. "
 
 wait_for_list_of_files (files_to_wait_for)
