@@ -19,7 +19,7 @@ STMAP = "/usr/local/schrodinger/sitemap"
 def wait_for_list_of_files (listoffiles):
 
     for fname in listoffiles:
-        if_exist (fname)
+        util.if_exist (fname)
 
 ###############################################################################
 
@@ -57,7 +57,6 @@ for mol in readlist:
     cmd = CONVERTER + " -ipdb " + ifname + " -omae " + ofname 
     mol.write("pdb", ifname)
     os.system (cmd)
-
     
     cmd = STMAP + " -sitebox 6 -reportsize 10 -resolution fine -j " \
         + noewbasename + ".jrun -prot " + ofname
