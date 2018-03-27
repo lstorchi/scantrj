@@ -72,6 +72,11 @@ for mol in readlist:
     idx = idx + 1
 
     if (localidx > numofrun):
+        print "Waiting for " , numofrun , " jobs ... "
         wait_for_list_of_files (files_to_wait_for)
         localidx = 0
         files_to_wait_for.clear()
+        print "Done. ""
+
+wait_for_list_of_files (files_to_wait_for)
+
