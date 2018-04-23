@@ -81,6 +81,9 @@ for file in glob.glob("*.maegz"):
 util.if_exist_rm("centroid.xyz")
 fp = open("centroid.xyz", "w")
 
+util.if_exist_rm("data.txt")
+fp1 = open("data.txt", "w")
+
 fp.write(str(total_num_of_centroid) + "\n")
 fp.write("centroids\n")
 
@@ -89,7 +92,15 @@ for sites in fullsetofsites:
     for site in sites:
         print "  ", site.s_m_title
         c = util.centroid(site.points)
+
+        fp1.write("sscore: %12.5f\n"%(site.r_sitemap_SiteScore)) 
+        fp1.write("ssize:  %12.5f\n"%(site.i_sitemap_size))
+        fp1.write("dscore: %12.5f\n"%(site.r_sitemap_Dscore))
+        fp1.write("volume: %12.5f\n"%(site.r_sitemap_volume))
+        fp1.write("sexp:   %12.5f\n"%(site.r_sitemap_exposure))
+ 
         if c != None:
             fp.write("H %12.6f %12.6f %12.6f\n"%(c[0], c[1], c[2]))
 
 fp.close()
+fp1.close()
