@@ -1,8 +1,11 @@
+import numpy
 import glob 
 import gzip
 import sys
 import os
 import re
+
+import numpy.linalg
 
 sys.path.append("./common")
 import maesfsm
@@ -93,14 +96,45 @@ for sites in fullsetofsites:
         print "  ", site.s_m_title
         c = util.centroid(site.points)
 
+        covm = numpy.cov (site.points, rowvar=False)
+
+        ueigs, eigvls =  numpy.linalg.eig(covm)
+        eigs =  numpy.sort(ueigs)
+        if  eigs.size == 3:
+            sum = numpy.sum(eigs)
+            l1 = eigs[2]/sum
+            l2 = eigs[1]/sum
+            l3 = eigs[0]/sum
+            linearity = (l1 - l2)/l1
+            planarity = (l2 - l3) / l1
+            sphericity = l3 / l1
+            anisotropy = (l1 - l3)/l1
+
+            print "    linearity  %10.3f"%(linearity)
+            print "    planarity  %10.3f"%(planarity)
+            print "    sphericity %10.3f"%(sphericity)
+            print "    anisotropy %10.3f"%(anisotropy)
+        else:
+            print "Error in eigenvalues dimension"
+
         fp1.write("sscore: %12.5f\n"%(site.r_sitemap_SiteScore)) 
         fp1.write("ssize:  %12.5f\n"%(site.i_sitemap_size))
         fp1.write("dscore: %12.5f\n"%(site.r_sitemap_Dscore))
         fp1.write("volume: %12.5f\n"%(site.r_sitemap_volume))
         fp1.write("sexp:   %12.5f\n"%(site.r_sitemap_exposure))
- 
+
+        fp2 = open(site.s_m_title+".xyz", "w")
+
+        fp2.write(site.s_m_title+"\n")
+        fp2.write(str(len(site.points)+1)+ "\n")
+        fp2.write("O %12.6f %12.6f %12.6f\n"%(c[0], c[1], c[2]))
+        for p in site.points:
+            fp2.write("H %12.6f %12.6f %12.6f\n"%(p[0], p[1], p[2]))
+
         if c != None:
             fp.write("H %12.6f %12.6f %12.6f\n"%(c[0], c[1], c[2]))
+
+        fp2.close()
 
 fp.close()
 fp1.close()
