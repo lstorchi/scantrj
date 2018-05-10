@@ -117,11 +117,13 @@ for sites in fullsetofsites:
         else:
             print "Error in eigenvalues dimension"
 
-        fp1.write("sscore: %12.5f\n"%(site.r_sitemap_SiteScore)) 
-        fp1.write("ssize:  %12.5f\n"%(site.i_sitemap_size))
-        fp1.write("dscore: %12.5f\n"%(site.r_sitemap_Dscore))
-        fp1.write("volume: %12.5f\n"%(site.r_sitemap_volume))
-        fp1.write("sexp:   %12.5f\n"%(site.r_sitemap_exposure))
+        fp1.write("sscore:     %12.5f\n"%(site.r_sitemap_SiteScore)) 
+        fp1.write("ssize:      %12.5f\n"%(site.i_sitemap_size))
+        fp1.write("dscore:     %12.5f\n"%(site.r_sitemap_Dscore))
+        fp1.write("volume:     %12.5f\n"%(site.r_sitemap_volume))
+        fp1.write("sexposure:  %12.5f\n"%(site.r_sitemap_exposure))
+        fp1.write("senclosure: %12.5f\n"%(site.r_sitemap_enclosure))
+        fp1.write("sbalance:   %12.5f\n"%(site.r_sitemap_balance))
 
         fp2 = open(site.s_m_title+".xyz", "w")
 
