@@ -90,6 +90,9 @@ fp1 = open("data.txt", "w")
 fp.write(str(total_num_of_centroid) + "\n")
 fp.write("centroids\n")
 
+fp1.write("name, sscore, ssize, dscore, volume, sexposure, senclosure, sbalance, " + \
+        "linearity, planarity, sphericity, anisotropy\n")
+ 
 for sites in fullsetofsites:
     print len(sites)
     for site in sites:
@@ -100,6 +103,12 @@ for sites in fullsetofsites:
 
         ueigs, eigvls =  numpy.linalg.eig(covm)
         eigs =  numpy.sort(ueigs)
+
+        linearity = 0.0
+        planarity = 0.0
+        sphericity = 0.0
+        anisotropy = 0.0
+
         if  eigs.size == 3:
             sum = numpy.sum(eigs)
             l1 = eigs[2]/sum
@@ -109,21 +118,15 @@ for sites in fullsetofsites:
             planarity = (l2 - l3) / l1
             sphericity = l3 / l1
             anisotropy = (l1 - l3)/l1
-
-            print "    linearity  %10.3f"%(linearity)
-            print "    planarity  %10.3f"%(planarity)
-            print "    sphericity %10.3f"%(sphericity)
-            print "    anisotropy %10.3f"%(anisotropy)
         else:
             print "Error in eigenvalues dimension"
 
-        fp1.write("sscore:     %12.5f\n"%(site.r_sitemap_SiteScore)) 
-        fp1.write("ssize:      %12.5f\n"%(site.i_sitemap_size))
-        fp1.write("dscore:     %12.5f\n"%(site.r_sitemap_Dscore))
-        fp1.write("volume:     %12.5f\n"%(site.r_sitemap_volume))
-        fp1.write("sexposure:  %12.5f\n"%(site.r_sitemap_exposure))
-        fp1.write("senclosure: %12.5f\n"%(site.r_sitemap_enclosure))
-        fp1.write("sbalance:   %12.5f\n"%(site.r_sitemap_balance))
+        fp1.write( \
+                "%s, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f\n"%( \
+                site.s_m_title, 
+                site.r_sitemap_SiteScore, site.i_sitemap_size, site.r_sitemap_Dscore, site.r_sitemap_volume, \
+                site.r_sitemap_exposure, site.r_sitemap_enclosure, site.r_sitemap_balance, \
+                linearity, planarity, sphericity, anisotropy))
 
         fp2 = open(site.s_m_title+".xyz", "w")
 
