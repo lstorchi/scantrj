@@ -30,31 +30,65 @@ for file in glob.glob("*.maegz"):
 
     sitedata = []
     atomdata = []
+    siteheader = []
 
-    maesfsm.import_mae_file(fp.readlines(), sitedata, atomdata)
+    maesfsm.import_mae_file(fp.readlines(), sitedata, atomdata, siteheader)
 
-    if len(sitedata) == len(atomdata):
+    if len(sitedata) == len(atomdata) and len(sitedata) == len(siteheader):
         sitespermol = []
 
         for idx in range(0,len(sitedata)):
             if (sitedata[idx][0].find("_site_") > 0):
-                if (len(sitedata[idx]) == 14):
+                if (len(sitedata[idx]) > 0):
                     site = maesfsm.site_data()
+                    
+                    totfill = 0
+                    for hidx in range(len(siteheader[idx])):
+                        if siteheader[idx][hidx] == "s_m_title":
+                            site.s_m_title = sitedata[idx][hidx]
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "s_m_entry_name":
+                            site.s_m_entry_name = sitedata[idx][hidx]
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_SiteScore":
+                            site.r_sitemap_SiteScore = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "i_sitemap_size":
+                            site.i_sitemap_size = int(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_Dscore":
+                            site.r_sitemap_Dscore = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_volume":
+                            site.r_sitemap_volume = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_exposure":
+                            site.r_sitemap_exposure = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_enclosure":
+                            site.r_sitemap_enclosure = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_contact":
+                            site.r_sitemap_contact = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_phobic":
+                            site.r_sitemap_phobic = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_philic":
+                            site.r_sitemap_philic = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_balance":
+                            site.r_sitemap_balance = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "r_sitemap_don_d_acc":
+                            site.r_sitemap_don_d_acc = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
+                        elif siteheader[idx][hidx] == "i_m_ct_format":
+                            site.i_m_ct_format = float(sitedata[idx][hidx])
+                            totfill = totfill + 1
 
-                    site.s_m_title = sitedata[idx][0]
-                    site.s_m_entry_name = sitedata[idx][1]
-                    site.r_sitemap_SiteScore = float(sitedata[idx][2])
-                    site.i_sitemap_size = int(sitedata[idx][3])
-                    site.r_sitemap_Dscore = float(sitedata[idx][4])
-                    site.r_sitemap_volume = float(sitedata[idx][5])
-                    site.r_sitemap_exposure = float(sitedata[idx][6])
-                    site.r_sitemap_enclosure = float(sitedata[idx][7])
-                    site.r_sitemap_contact = float(sitedata[idx][8])
-                    site.r_sitemap_phobic = float(sitedata[idx][9])
-                    site.r_sitemap_philic = float(sitedata[idx][10])
-                    site.r_sitemap_balance = float(sitedata[idx][11])
-                    site.r_sitemap_don_d_acc = float(sitedata[idx][12])
-                    site.i_m_ct_format= float(sitedata[idx][13])
+                    if totfill != 14:
+                        print "Some data may be missed"
 
                     total_num_of_centroid = total_num_of_centroid + 1
 

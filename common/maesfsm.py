@@ -1,10 +1,11 @@
 
-def import_mae_file (lines, sitedata, atomdata): # in the final version I should use a state machine
+def import_mae_file (lines, sitedata, atomdata, siteheader): # in the final version I should use a state machine
 
     state = None
 
     local_sitedata = []
     local_atomdata = []
+    local_siteheader = []
 
     for line in lines:
         line = line.rstrip()
@@ -13,6 +14,9 @@ def import_mae_file (lines, sitedata, atomdata): # in the final version I should
         if state == "START":
             if line.find(":::") == 0:
                 state = "SITEINFO"
+            else:
+                if line.find(":::") < 0:
+                    local_siteheader.append(line)
         
         if state == "SITEINFO":   
             if line.find("m_atom") == 0:
@@ -27,8 +31,10 @@ def import_mae_file (lines, sitedata, atomdata): # in the final version I should
                 state = None
                 sitedata.append(local_sitedata)
                 atomdata.append(local_atomdata)
+                siteheader.append(local_siteheader)
                 local_sitedata = []
                 local_atomdata = []
+                local_siteheader = []
             else:
                 local_atomdata.append(line)
                 #print "DATATOM:", line
