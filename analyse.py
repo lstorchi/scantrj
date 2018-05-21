@@ -80,7 +80,7 @@ for file in glob.glob("*.maegz"):
                         elif siteheader[idx][hidx] == "r_sitemap_balance":
                             site.r_sitemap_balance = float(sitedata[idx][hidx])
                             totfill = totfill + 1
-                        elif siteheader[idx][hidx] == "r_sitemap_don_d_acc":
+                        elif siteheader[idx][hidx] == "r_sitemap_don/acc":
                             site.r_sitemap_don_d_acc = float(sitedata[idx][hidx])
                             totfill = totfill + 1
                         elif siteheader[idx][hidx] == "i_m_ct_format":
