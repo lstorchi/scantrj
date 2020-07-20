@@ -41,7 +41,7 @@ numofrun = args.numofrun
 if numofrun == 0:
     numofrun = len(readlist)
 
-print len(readlist), " in use "
+print(len(readlist), " in use ")
 
 idx = 1
 localidx = 1
@@ -64,22 +64,22 @@ for mol in readlist:
     os.system (cmd)
 
     if os.system(cmd):
-        print cmd , " failed! "
+        print(cmd , " failed! ")
     else:
         files_to_wait_for.append(noewbasename + ".jrun_out.maegz")
     
     idx = idx + 1
     localidx = localidx + 1
-    print "Doing ", idx , " of ", len(readlist)
+    print("Doing ", idx , " of ", len(readlist))
     sys.stdout.flush()
 
     if (localidx > numofrun):
-        print "Waiting for " , numofrun , " jobs ... "
+        print("Waiting for " , numofrun , " jobs ... ")
         sys.stdout.flush()
         wait_for_list_of_files (files_to_wait_for)
         localidx = 0
         files_to_wait_for = []
-        print "Done. "
+        print("Done. ")
         sys.stdout.flush()
 
 wait_for_list_of_files (files_to_wait_for)

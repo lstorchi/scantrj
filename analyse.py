@@ -88,7 +88,7 @@ for file in glob.glob("*.maegz"):
                             totfill = totfill + 1
 
                     if totfill != 14:
-                        print "Some data may be missed"
+                        print("Some data may be missed")
 
                     total_num_of_centroid = total_num_of_centroid + 1
 
@@ -101,12 +101,12 @@ for file in glob.glob("*.maegz"):
 
                     sitespermol.append(site)
                 else:
-                    print "Error in file header "
+                    print("Error in file header ")
 
         if len(sitespermol) > 0:
             fullsetofsites.append(sitespermol)
     else:
-        print "Error in parsing mae file"
+        print("Error in parsing mae file")
 
     fp.close()
 
@@ -128,9 +128,9 @@ fp1.write("name, sscore, ssize, dscore, volume, sexposure, senclosure, sbalance,
         "linearity, planarity, sphericity, anisotropy\n")
  
 for sites in fullsetofsites:
-    print len(sites)
+    print(len(sites))
     for site in sites:
-        print "  ", site.s_m_title
+        print("  ", site.s_m_title)
         c = util.centroid(site.points)
 
         covm = numpy.cov (site.points, rowvar=False)
@@ -153,7 +153,7 @@ for sites in fullsetofsites:
             sphericity = l3 / l1
             anisotropy = (l1 - l3)/l1
         else:
-            print "Error in eigenvalues dimension"
+            print("Error in eigenvalues dimension")
 
         fp1.write( \
                 "%s, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f, %12.5f\n"%( \
